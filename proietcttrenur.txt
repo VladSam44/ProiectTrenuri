@@ -1,0 +1,25 @@
+Plan de actiune:
+
+Creeaza diagrama UML de clase pentru aplicatia E-mersul trenurilor, incluzand clasele Tren, Statie, Bilet, Client, Casier, Orar.
+Implementeaza clasa Tren, cu atributele si metodele necesare pentru a retine informatii despre tipul de tren, ruta, pretul biletului, etc.
+Implementeaza clasa Statie, cu atributele si metodele necesare pentru a retine informatii despre numele statiei, trenurile care opresc acolo, etc.
+Implementeaza clasa Bilet, cu atributele si metodele necesare pentru a retine informatii despre tipul de tren, clasa, ruta, pretul biletului, etc.
+5. Implementeaza clasa Client, cu atributele si metodele necesare pentru a retine informatii despre CNP-ul clientului, tipul de reducere (daca este cazul), etc.
+
+Implementeaza clasa Casier, cu atributele si metodele necesare pentru a retine informatii despre vanzarile efectuate si pentru a tipari biletele.
+Implementeaza clasa Orar, cu atributele si metodele necesare pentru a retine informatii despre trenurile care circula intre anumite statii, in anumite intervale de timp, etc.
+Implementeaza interfata grafica folosind tehnologia Swing si gestioneaza evenimentele generate de utilizatorii aplicatiei folosind clase interne.
+Foloseste colectii dinamice de obiecte pentru a gestiona trenurile, statiile, biletele si alte date necesare functionarii aplicatiei.
+Testeaza aplicatia si corecteaza eventualele erori sau probleme.
+Implementeaza functionalitatea de salvare si incarcare a datelor in fisiere.
+
+Creeaza o noua clasa in proiectul tau si numeste-o "Tren". Aceasta va fi clasa principala care va retine informatii despre tipul de tren, ruta, pretul biletului, etc.
+Adauga atributele necesare in clasa Tren. De exemplu, "tip" (String), "ruta" (String), "pret" (double), "clasa" (int) etc.
+Implementeaza metodele necesare in clasa Tren, cum ar fi "setTip(String tip)" si "getTip()" pentru a seta si a obtine tipul de tren, "setRuta(String ruta)" si "getRuta()" pentru a seta si a obtine ruta, "setPret(double pret)" si "getPret()" pentru a seta si a obtine pretul biletului, etc.
+Creeaza o noua clasa si numeste-o "Statie". Aceasta va fi clasa care va retine informatii despre statiile de plecare si sosire si trenurile care opresc acolo.
+Adauga atributele necesare in clasa Statie. De exemplu, "nume" (String), "trenuri" (List<Tren>).
+Implementeaza metodele necesare in clasa Statie, cum ar fi "setNume(String nume)" si "getNume()" pentru a seta si a obtine numele statiei, "addTren(Tren tren)" si "getTrenuri()" pentru a adauga si a obtine lista de trenuri care opresc la statie, etc.
+Continua cu crearea si implementarea celorlalte clase (Bilet, Client, Casier, Orar) in acelasi mod.
+Asigura-te ca clasele sunt bine proiectate si respecta principiile programarii orientate spre obiecte (encapsulare, mostenire, polimorfism).
+Dupa ce ai creat si implementat toate clasele, poti sa incepi sa le folosesti pentru a implementa functionalitatile descrise in cerinta ta.
+Nu uita sa testezi si sa verifici daca toate functionalitatile sunt functionale si daca nu exista erori in cod.
