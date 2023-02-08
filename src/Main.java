@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.*;
 import java.util.Scanner;
 import java.io.File;
+import java.text.SimpleDateFormat;
 
 class Tren {
     public String numar;
@@ -171,28 +172,31 @@ class CitireFisier {
 }
 
 class CautaTren {
-
-    private boolean contains;
-
-    public ArrayList<Tren> cautaTren(String gara_plecare , String gara_sosire , String tip , ArrayList<Tren> trenuri) {
+    public ArrayList<Tren> cautaTren(String gara_plecare , String gara_sosire , String tip , ArrayList<Tren> trenuri , float pretMax) {
         ArrayList<Tren> ruteGasite = new ArrayList<>();
         for (Tren tr : trenuri) {
-            if (tr.getPlecare().equals(gara_plecare) && (tr.getSosire().equals(gara_sosire) || tr.getGari_parcurse().containsKey(gara_sosire))) {
+            if (tr.getPlecare().equals(gara_plecare) && (tr.getSosire().equals(gara_sosire) || tr.getGari_parcurse().containsKey(gara_sosire)) && tr.getPret(1) < pretMax) {
                 ruteGasite.add(tr);
             }
         }
         if (ruteGasite.size() == 0) {
             Tren plecareCompusa = new Tren();
             Tren sosireCompusa = new Tren();
-
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             for (Tren tr : trenuri) {
                 if (tr.getPlecare().equals(gara_plecare)) {
                     for (Tren tren : trenuri) {
-                        if (tren.getSosire().equals(gara_sosire) && tren.getPlecare().equals(tr.getSosire())) {
-                            plecareCompusa = tr;
-                            sosireCompusa = tren;
-                            ruteGasite.add(plecareCompusa);
-                            ruteGasite.add(sosireCompusa);
+                        try {
+                            Date d1 = sdf.parse(tr.getOra_sosire().toString());
+                            Date d2 = sdf.parse(tren.getOra_plecare().toString());
+                            if (tren.getSosire().equals(gara_sosire) && tren.getPlecare().equals(tr.getSosire()) && d1.compareTo(d2) < 0) {
+                                plecareCompusa = tr;
+                                sosireCompusa = tren;
+                                ruteGasite.add(plecareCompusa);
+                                ruteGasite.add(sosireCompusa);
+                            }
+                        } catch (java.text.ParseException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -311,32 +315,38 @@ public class Main {
         }
 
         JLabel l1 = new JLabel("Plecare :");
-        l1.setBounds(4,5,150,222);
+        l1.setBounds(4, 5, 150, 222);
+        l1.setFont(new Font("ARIAL",Font.BOLD,20));
         JTextField tf1 = new JTextField(30);
         JLabel l2 = new JLabel("Sosire :");
-
+        l2.setFont(new Font("ARIAL",Font.BOLD,20));
         JLabel l4 = new JLabel("Clasa :");
-
+        l4.setFont(new Font("ARIAL",Font.BOLD,20));
         JLabel l5 = new JLabel("Tipul de tren :");
-
+        l5.setFont(new Font("ARIAL",Font.BOLD,20));
         JLabel l6 = new JLabel("Pentru :");
-
+        l6.setFont(new Font("ARIAL",Font.BOLD,20));
         JLabel l7 = new JLabel("Pret maxim bilet: ");
-        JTextField tf7= new JTextField(30);
+        l7.setFont(new Font("ARIAL",Font.BOLD,20));
+        JTextField tf7 = new JTextField(30);
 
         JButton button = new JButton("Cautati");
 
         ArrayList<Tren> ruteTrenuri = trenuri;
         button.addActionListener(new ActionListener() {
+            JFrame f;
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                //  if(e.getSource())
                 String gara_plecare = c1.getSelectedItem().toString();
                 String gara_sosire = c2.getSelectedItem().toString();
                 int clasa = Integer.parseInt(c3.getSelectedItem().toString());
                 String tip_tren = c5.getSelectedItem().toString();
                 String persoana = c4.getSelectedItem().toString();
+                float pretMax = Float.parseFloat(tf7.getText());
                 List<Tren> ruteGasite = new ArrayList<>();
-                ruteGasite = ct.cautaTren(gara_plecare , gara_sosire , tip_tren , ruteTrenuri);
+                ruteGasite = ct.cautaTren(gara_plecare, gara_sosire, tip_tren, ruteTrenuri , pretMax);
                 for (Tren tr : ruteGasite) {
                     float pret = tr.getPret(clasa);
                     if (persoana.equals("Student") || persoana.equals("Pensionar")) {
@@ -344,8 +354,8 @@ public class Main {
                     } else if (persoana.equals("Soldat")) {
                         pret = 0;
                     }
-                    System.out.println(tr.numar + " " + tr.getTipTren() + " " + tr.getPlecare() + " " + tr.getSosire() + " " + tr.getOra_plecare() + " " + tr.getOra_sosire() + " " + pret);
                 }
+                f = new Frame2(ruteGasite , gara_plecare , gara_sosire);
             }
         });
 
@@ -361,7 +371,7 @@ public class Main {
         panel.add(c4);
         panel.add(l7);
         panel.add(tf7);
-        panel.add(button);
+        panel.add(button, new Insets(5, 5, 5, 5));
         panel.repaint();
         frame.add(panel);
         frame.revalidate();
